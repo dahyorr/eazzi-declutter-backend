@@ -2,6 +2,7 @@ import Footer from "../Footer"
 import Header from "../Header"
 
 const Error404 = () =>{
+    console.log('error')
     return(
         <div className="Error">
             <Header/>

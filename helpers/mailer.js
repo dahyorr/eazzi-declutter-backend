@@ -1,4 +1,4 @@
-const {SENDGRID_API_KEY} = require('../config')
+const {SENDGRID_API_KEY, URL} = require('../config')
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(SENDGRID_API_KEY);
 
@@ -17,16 +17,16 @@ module.exports = {
     })
         .then((r)=> console.log(r[0].statusCode)),
 
-    sendAccountActivationMail: (email, resetToken) =>sendGridMail.send({
+    sendAccountVerificationMail: (email, verifyToken) =>sendGridMail.send({
         to: email,
         from: 'dahyor@outlook.com',
-        subject: 'Activate your account',
-        text: `You are receiving this because an account has been created for you on Instiq HR App.
-        Please click on the following link, to activate your account and change your password
+        subject: 'Verify your account',
+        text: `You are receiving this because you created an account on eazziDeclutter
+        click on the link below to activate your account
         
-        http://localhost:5000/auth/password-reset/${resetToken.token}
+        ${URL}/api/auth/verify/${verifyToken}
         
-         Token: ${resetToken.token}
+         Token: ${verifyToken}
     `
     })
         .then((r)=> console.log(r[0].statusCode)),

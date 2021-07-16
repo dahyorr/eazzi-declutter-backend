@@ -18,7 +18,6 @@ export const loginUser  = (email, password) => async (dispatch) =>{
         })
     }
     catch(e){
-        console.log({...e})
         if (!e.response) return dispatch({
             type: types.AUTH_ERROR,
             payload: "Check your network connection"
@@ -33,9 +32,7 @@ export const loginUser  = (email, password) => async (dispatch) =>{
 
 export const signupUser  = (name, email, password) => async (dispatch) =>{
     try{
-        const res = await api.post('/auth/register', { email, name, password})
-        const status = res.status
-        console.log(status)
+        await api.post('/auth/register', { email, name, password})
         dispatch({
             type: types.SIGN_UP,
             payload: {
@@ -48,7 +45,6 @@ export const signupUser  = (name, email, password) => async (dispatch) =>{
     }
     
     catch(e){
-        console.log({...e})
         if (!e.response) return dispatch({
             type: types.AUTH_ERROR,
             payload: "Check your network connection"
@@ -58,6 +54,7 @@ export const signupUser  = (name, email, password) => async (dispatch) =>{
             type: types.AUTH_ERROR,
             payload: e.response.data.message
         })
+        return false
     }
 }
 

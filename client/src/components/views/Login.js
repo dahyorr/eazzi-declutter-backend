@@ -3,11 +3,16 @@ import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import loginBg from '../../static/login-bg.png'
 import LoginForm from '../forms/LoginForm'
+import {loginUser} from '../../actions'
 
-const Login = ({history, isAuthenticated})=>{
+const Login = ({history, loginUser, isAuthenticated})=>{
     useEffect(() => {
         if(isAuthenticated) history.push('/')
     })
+    const onFormSubmit = async (values) => {
+        await loginUser(values.email, values.password)
+        // setShowModal(res)
+    }
     return (
         <div className='Login bg-primary flex'>
             <div className='back' onClick={()=>history.goBack()}><i className="fas fa-arrow-left fa-2x"></i></div>
@@ -32,7 +37,7 @@ const Login = ({history, isAuthenticated})=>{
                             <div className="left active"><Link to='/login'>Sign in</Link></div>
                             <div className="right"><Link to='/signup'>Sign up</Link></div>
                         </div>
-                        <LoginForm/>
+                        <LoginForm onFormSubmit={onFormSubmit}/>
                     </div>
                 </div>
             </div>
@@ -42,7 +47,7 @@ const Login = ({history, isAuthenticated})=>{
                             <div className="left active"><Link to='/login'>Sign in</Link></div>
                             <div className="right"><Link to='/signup'>Sign up</Link></div>
                         </div>
-                        <LoginForm />
+                        <LoginForm onFormSubmit={onFormSubmit}/>
                     </div>
 
         </div>
@@ -52,4 +57,4 @@ const Login = ({history, isAuthenticated})=>{
 const mapStateToProps = (state) =>({
     isAuthenticated: state.auth.isAuthenticated
 })
-export default connect(mapStateToProps)(withRouter(Login))
+export default connect(mapStateToProps, {loginUser})(withRouter(Login))

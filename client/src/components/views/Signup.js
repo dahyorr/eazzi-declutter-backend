@@ -7,12 +7,14 @@ import FullScreenModal from "../FullScreenModal";
 import {signupUser} from '../../actions'
 
 const Signup = ({history, isAuthenticated, signupUser}) => {
-    const [showModal, setShowModal] = useState(true)
+    const [showModal, setShowModal] = useState(false)
     const onModalClose = () =>{
         setShowModal(false)
+        history.push('/login')
     }
     const onFormSubmit = async (values) => {
         const res = await signupUser(values.name, values.email, values.password)
+        setShowModal(res)
     }
 
     useEffect(() => {

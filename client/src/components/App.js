@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import {getUser} from '../actions/'
 // import Loader from './Loader';
-import Error404 from "./views/Error404";
+// import Error404 from "./views/Error404";
 import AdminRoutes from "./routes/AdminRoutes";
 // import FullScreenModal from './FullScreenModal';
 import Layout from "./Layout";
@@ -18,6 +18,7 @@ import Category from "./views/Category";
 import SearchResult from "./views/SearchResults";
 import CartView from "./views/CartView";
 import Order from "./views/Order";
+import VerifyView from "./views/VerifyView";
 
 function App({getUser}) {
   useEffect(()=>{
@@ -71,13 +72,13 @@ function App({getUser}) {
             <Layout><Order/></Layout>
           </Route>
 
+          <Route path="/auth/verify" >
+            <Layout><VerifyView/></Layout>
+          </Route>
+
           {/* <Route path='/test' component={FullScreenModal}/> */}
 
           <AdminRoutes/>
-
-          <Route >
-            <Layout><Error404/></Layout>
-          </Route>
           
         </Switch>
       </BrowserRouter>

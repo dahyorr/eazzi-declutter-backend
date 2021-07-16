@@ -1,5 +1,6 @@
 import {Route} from 'react-router-dom'
-import Layout from '../adminComponents/views/AdminLayout/Layout';
+import AdminLayout from '../adminComponents/views/AdminLayout/Layout';
+import Layout from '../Layout';
 import Dashboard from "../adminComponents/views/AdminDashboard/Dashboard";
 import Products from "../adminComponents/views/AdminProducts/Products";
 import ProductsDetail from "../adminComponents/views/AdminProductsDetail/ProductsDetail";
@@ -8,61 +9,66 @@ import ManageRequests from '../adminComponents/views/AdminManageRequests/ManageR
 import UserManagement from '../adminComponents/views/AdminUserManagement/UserManagement';
 import RequestsDetail from '../adminComponents/views/AdminRequestsDetail/RequestsDetail';
 import UpdateProducts from '../adminComponents/views/AdminUpdateProducts/UpdateProducts';
+import Error404 from "../views/Error404";
 
 function AdminRoutes() {
   return (
     <>
           <Route exact path="/admin">
-            <Layout title={'Dashboard'}>
+            <AdminLayout title={'Dashboard'}>
               <Dashboard/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/user/manage">
-            <Layout title={'User Management'}>
+            <AdminLayout title={'User Management'}>
               <UserManagement/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/requests/" exact>
-            <Layout title={'Manage Requests'}>
+            <AdminLayout title={'Manage Requests'}>
               <ManageRequests/>
-            </Layout>
+            </AdminLayout>
           </Route>
           
           <Route path="/admin/requests/:id" exact>
-            <Layout title={'Manage Requests'}>
+            <AdminLayout title={'Manage Requests'}>
               <RequestsDetail/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/products" exact>
-            <Layout title={'Manage Products'}>
+            <AdminLayout title={'Manage Products'}>
               <Products/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/create/products" exact>
-            <Layout title={'Create Products'}>
+            <AdminLayout title={'Create Products'}>
               <Products/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/edit/products/:id">
-            <Layout title={'Update Products'}>
+            <AdminLayout title={'Update Products'}>
               <UpdateProducts/>
-            </Layout>
+            </AdminLayout>
           </Route>
 
           <Route path="/admin/products/:id">
-            <Layout title={'Manage Products'}>
+            <AdminLayout title={'Manage Products'}>
               <ProductsDetail/>
-            </Layout>
+            </AdminLayout>
           </Route>
           
           <Route path="/admin/login">
             <Login/>
           </Route>
+
+        <Route>
+            <Layout><Error404/></Layout>
+        </Route>
     </>
   );
 }

@@ -1,13 +1,13 @@
 // Packages
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
- const crypto = require('crypto')
+const crypto = require('crypto')
 
 // models
 const User = require('../models/User');
 
 // config
-// const {sendPasswordResetMail} = require('../helpers/mailer')
+const {sendAccountVerificationMail} = require('../helpers/mailer')
 const {JWT_SECRET} = require('../config');
 
 module.exports = {
@@ -34,14 +34,15 @@ module.exports = {
             if(user){
                 return res.status(422).json({ message: 'User already exists'})
             }
+            const verifyToken = crypto.randomBytes(16).toString('hex')
             user = new User({
                 email,
                 name,
                 password: bcrypt.hashSync(password, 12),
-                verifyToken: crypto.randomBytes(16).toString('hex')
+                verifyToken
             })
             await user.save()
-
+            await sendAccountVerificationMail(email, verifyToken)
             return res.status(200).json({
                 message: 'User created Successfully, Check your mail for validation token',
                 email: user['email'],
@@ -96,9 +97,12 @@ module.exports = {
     verifyToken: async (req, res) => {
         const {token} = req.params
         const user = await User.findOne({verifyToken: token})
-        if(!user) return res.status(401).json({message: "Verification Token is invalid"}) // redirect to fail modal
+        // if(!user) return res.status(401).json({message: "Verification Token is invalid"}) // redirect to fail modal
+        if(!user) return res.redirect('/auth/verify')
         user.verifyToken = undefined
         user.isVerified = true
-        return res.status(200).json({...req.user}) // redirect to success modal
+        await user.save()
+        // return res.status(200).json({...req.user})
+        res.redirect('/auth/verify?success=true')
     },
 }
