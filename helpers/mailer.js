@@ -1,4 +1,4 @@
-const {SENDGRID_API_KEY, URL} = require('../config')
+const {SENDGRID_API_KEY, BACKEND_URL} = require('../config')
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(SENDGRID_API_KEY);
 
@@ -24,7 +24,7 @@ module.exports = {
         text: `You are receiving this because you created an account on eazziDeclutter
     click on the link below to activate your account
         
-        ${URL}/api/auth/verify/${verifyToken}
+        ${BACKEND_URL}/api/auth/verify/${verifyToken}
         
          Token: ${verifyToken}
     `
