@@ -39,11 +39,12 @@ export const signupUser  = (name, email, password) => async (dispatch) =>{
         dispatch({
             type: types.SIGN_UP,
             payload: {
-                isAuthenticated: true,
+                isAuthenticated: false,
                 email: email, 
                 error: "",
             }
         })
+        return true
     }
     
     catch(e){

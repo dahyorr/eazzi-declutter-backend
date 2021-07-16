@@ -1,9 +1,8 @@
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Formik, Form, Field, ErrorMessage} from 'formik' 
-import {signupUser} from '../../actions'
 import * as Yup from 'yup'
-const SignupForm = ({ signupUser, formError}) => {
+const SignupForm = ({ formError, onFormSubmit}) => {
     return(
         <Formik
                         initialValues={{ 
@@ -12,7 +11,7 @@ const SignupForm = ({ signupUser, formError}) => {
                             name: '' 
                         }}
                         onSubmit={values => {
-                            signupUser(values.name, values.email, values.password)
+                            onFormSubmit(values)
                         }}
                         validationSchema={Yup.object({
                             name: Yup.string().required('You must provide a Name'),
@@ -64,4 +63,4 @@ const mapStateToProps = (state) =>({
     formError: state.auth.error
 })
 
-export default connect(mapStateToProps, {signupUser})(SignupForm)
+export default connect(mapStateToProps)(SignupForm)

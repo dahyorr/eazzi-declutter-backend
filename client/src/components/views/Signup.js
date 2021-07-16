@@ -1,16 +1,26 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import loginBg from '../../static/login-bg.png'
 import SignupForm from '../forms/SignupForm'
+import FullScreenModal from "../FullScreenModal";
+import {signupUser} from '../../actions'
 
-const Signup = ({history, isAuthenticated}) => {
+const Signup = ({history, isAuthenticated, signupUser}) => {
+    const [showModal, setShowModal] = useState(true)
+    const onModalClose = () =>{
+        setShowModal(false)
+    }
+    const onFormSubmit = async (values) => {
+        const res = await signupUser(values.name, values.email, values.password)
+    }
+
     useEffect(() => {
         if(isAuthenticated) history.push('/')
     })
     return(
         <div className='Login bg-primary flex'>
-            <div className='back' onClick={()=>history.goBack()}><i className="fas fa-arrow-left fa-2x"></i></div>
+            <div className='back' onClick={()=>history.goBack()}><i className="fas fa-arrow-left fa-2x"/></div>
 
             <div className="content">
 
@@ -33,7 +43,7 @@ const Signup = ({history, isAuthenticated}) => {
                             <div className="left"><Link to='/login'>Sign in</Link></div>
                             <div className="right active"><Link to='/signup'>Sign up</Link></div>
                         </div>
-                        <SignupForm/>
+                        <SignupForm onFormSubmit={onFormSubmit} />
                     </div>
                 </div>
             </div>
@@ -43,9 +53,12 @@ const Signup = ({history, isAuthenticated}) => {
                             <div className="left"><Link to='/login'>Sign in</Link></div>
                             <div className="right active"><Link to='/signup'>Sign up</Link></div>
                         </div>
-                        <SignupForm />
+                        <SignupForm onFormSubmit={onFormSubmit} />
                     </div>
-
+            { showModal && <FullScreenModal onClose={onModalClose}>
+                <p>User Created Successfully</p>
+                <p>Check your mail to verify your account</p>
+            </FullScreenModal> }
         </div>
     )
 }
@@ -54,4 +67,4 @@ const mapStateToProps = (state) =>({
     isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps)(withRouter(Signup))
+export default connect(mapStateToProps, {signupUser})(withRouter(Signup))
