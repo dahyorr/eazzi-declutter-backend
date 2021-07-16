@@ -1,0 +1,42 @@
+.DashBoard{
+    .charts{
+        height: 375px;
+        width: 100%;
+        margin-top: 2.75rem;
+        // grid-template-columns: repeat(2, 1fr);
+        // gap: 1.75rem;
+        display: flex;
+        justify-content: space-between;
+        .chart{
+            height: fit-content;
+            width: 33vh;
+            border-radius: 10px;
+            padding: 1rem 0.5rem;
+            background: white;
+            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.20),
+            0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+            0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            box-sizing: content-box;
+            div{
+                display: flex;
+                align-items: center
+            }
+        }
+        // .split-chart{
+        //     // height: fit-content;
+        //     // min-height: 300px;
+        //     border-radius: 10px;
+        //     padding: 0.5rem;
+        //     background: white;
+        //     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.20),
+        //     0px 4px 5px 0px rgba(0, 0, 0, 0.14),
+        //     0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        //     display: flex;
+        //     justify-content: space-between;
+        //     align-items: center;
+        // }
+    }
+}

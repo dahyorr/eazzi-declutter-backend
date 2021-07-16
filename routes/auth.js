@@ -20,9 +20,7 @@ routes.get(
     authController.user
 )
 routes.get(
-    '/admin',
-    verifyToken,
-    isAdmin,
-    authController.admin
+    '/:token',
+    authController.verifyToken
 )
 module.exports = routes
