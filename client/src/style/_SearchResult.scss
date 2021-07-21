@@ -1,0 +1,20 @@
+.SearchResult{
+    .container.content{
+        min-height: calc(100vh - 200px );
+        padding: 1rem;
+        .ProductList .grid{
+            justify-content: flex-start;
+        }
+    }
+}
+@media screen and (max-width: 768px) {
+    .SearchResult{
+        .container.content{
+
+            .ProductList .grid{
+                justify-content: center;
+                grid-row-gap: 20px;
+            }
+        }
+    }
+}
