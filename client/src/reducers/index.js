@@ -8,7 +8,6 @@ const authReducer = (state = {isAuthenticated: false}, action) => {
     case types.SIGN_IN:
     case types.SIGN_UP:
     case types.GET_USER:
-      console.log(action.type);
       return {...state, ...action.payload}
     case types.LOGOUT:
       return action.payload
@@ -17,6 +16,16 @@ const authReducer = (state = {isAuthenticated: false}, action) => {
   }
 };
 
+const productReducer = (state = [], action) => {
+  switch (action.type) {
+    case types.FETCH_PRODUCTS:
+      return [...state, ...action.payload]
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   auth: authReducer,
+  products: productReducer,
 });

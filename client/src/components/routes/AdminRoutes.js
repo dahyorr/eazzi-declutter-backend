@@ -1,6 +1,6 @@
 import {Route} from 'react-router-dom'
 import AdminLayout from '../adminComponents/views/AdminLayout/Layout';
-import Layout from '../Layout';
+// import Layout from '../Layout';
 import Dashboard from "../adminComponents/views/AdminDashboard/Dashboard";
 import Products from "../adminComponents/views/AdminProducts/Products";
 import ProductsDetail from "../adminComponents/views/AdminProductsDetail/ProductsDetail";
@@ -9,7 +9,9 @@ import ManageRequests from '../adminComponents/views/AdminManageRequests/ManageR
 import UserManagement from '../adminComponents/views/AdminUserManagement/UserManagement';
 import RequestsDetail from '../adminComponents/views/AdminRequestsDetail/RequestsDetail';
 import UpdateProducts from '../adminComponents/views/AdminUpdateProducts/UpdateProducts';
-import Error404 from "../views/Error404";
+import ManageOrders from "../adminComponents/views/AdminManageOrders/ManageRequests";
+import OrdersDetail from "../adminComponents/views/AdminOrdersDetail/OrdersDetail";
+// import Error404 from "../views/Error404";
 
 function AdminRoutes() {
   return (
@@ -31,10 +33,22 @@ function AdminRoutes() {
               <ManageRequests/>
             </AdminLayout>
           </Route>
-          
+
           <Route path="/admin/requests/:id" exact>
             <AdminLayout title={'Manage Requests'}>
               <RequestsDetail/>
+            </AdminLayout>
+          </Route>
+
+        <Route path="/admin/orders/" exact>
+            <AdminLayout title={'Manage Orders'}>
+              <ManageOrders/>
+            </AdminLayout>
+          </Route>
+
+          <Route path="/admin/orders/:id" exact>
+            <AdminLayout title={'Manage Orders'}>
+              <OrdersDetail/>
             </AdminLayout>
           </Route>
 
@@ -66,9 +80,6 @@ function AdminRoutes() {
             <Login/>
           </Route>
 
-        <Route>
-            <Layout><Error404/></Layout>
-        </Route>
     </>
   );
 }

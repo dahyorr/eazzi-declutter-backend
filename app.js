@@ -14,6 +14,7 @@ app.use(cors({
     origin: '*'
 }))
 require('./routes/index')(app)
+app.use('/static', express.static('static'))
 app.use(errorHandler)
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,

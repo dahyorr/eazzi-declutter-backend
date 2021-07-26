@@ -19,6 +19,7 @@ import SearchResult from "./views/SearchResults";
 import CartView from "./views/CartView";
 import Order from "./views/Order";
 import VerifyView from "./views/VerifyView";
+import Loader from "./Loader";
 
 function App({getUser}) {
   useEffect(()=>{
@@ -48,7 +49,7 @@ function App({getUser}) {
             <Layout><Contact/></Layout>
           </Route>
 
-          <Route path="/product/:id">
+          <Route path="/product/:product">
             <Layout><ProductPage/></Layout>
           </Route>
 
@@ -79,9 +80,10 @@ function App({getUser}) {
           {/* <Route path='/test' component={FullScreenModal}/> */}
 
           <AdminRoutes/>
-          
+
         </Switch>
       </BrowserRouter>
+      <Loader/>
     </div>
   );
 }

@@ -26,13 +26,12 @@ const CartView = () => {
         cartItems.forEach((item) => {
             cartTotal = cartTotal + (item.quantity * item.price)
         })
-        console.log(cartTotal)
     }
 
-    const removeFromCart = (product)=>{
+    const removeFromCart = async (product)=>{
         const newCart = cartItems.filter((item) => item.id !== product.id)
         setCartItems(newCart)
-        localForage.setItem('cart', newCart, () => {toast.info('Removed from cart')})
+        await localForage.setItem('cart', newCart, () => {toast.info('Removed from cart')})
     }
 
     return(
@@ -45,8 +44,8 @@ const CartView = () => {
                     {cartItems.length<1?
                     <h3>No cart items</h3>:
                     cartItems.map(item =>(
-                        <div className="cartItem" key={item.id}>
-                            <img src={item.imgURL} alt="Product" />
+                        <div className="cartItem" key={item._id}>
+                            <img src={item.imgUrl} alt="Product" />
                             <h4>{item.title}</h4>
                             <div className="details">
                                 <div>
@@ -58,7 +57,7 @@ const CartView = () => {
                                     <p>₦{formatNumberWithCommas(item.price)}</p>
                                 </div>
                                 <div className="delete-icon" onClick={() => removeFromCart(item)}>
-                                    <i class="far fa-trash-alt"></i>
+                                    <i className="far fa-trash-alt"/>
                                 </div>
                             </div>
                         </div>

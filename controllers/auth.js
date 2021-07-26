@@ -28,7 +28,7 @@ module.exports = {
     },
 
     register: async (req, res) =>{
-        const {email, name, password} = req.body
+        const {email, name, password, phone} = req.body
         try{
             let user = await User.findOne({ email: email})
             if(user){
@@ -39,6 +39,7 @@ module.exports = {
                 email,
                 name,
                 password: bcrypt.hashSync(password, 12),
+                phone,
                 verifyToken
             })
             await user.save()

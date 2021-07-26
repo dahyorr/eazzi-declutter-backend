@@ -11,7 +11,8 @@ export const loginUser  = (email, password) => async (dispatch) =>{
             type: types.SIGN_IN,
             payload: {
                 isAuthenticated: true,
-                email: res.data.email, 
+                email: res.data.email,
+                name: res.data.name,
                 error: "",
                 token
             }
@@ -30,9 +31,9 @@ export const loginUser  = (email, password) => async (dispatch) =>{
     }
 }
 
-export const signupUser  = (name, email, password) => async (dispatch) =>{
+export const signupUser  = (name, email, password, phone) => async (dispatch) =>{
     try{
-        await api.post('/auth/register', { email, name, password})
+        await api.post('/auth/register', { email, name, password, phone})
         dispatch({
             type: types.SIGN_UP,
             payload: {
@@ -63,7 +64,6 @@ export const getUser = () => async dispatch => {
     try{
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         const res = await api.get('/auth/user')
-        console.log(res.data)
         dispatch({
             type: types.GET_USER,
             payload: {isAuthenticated: true, ...res.data}
@@ -81,4 +81,42 @@ export const logout = () => async dispatch => {
         type: types.LOGOUT,
         payload: {isAuthenticated: false}
     })
+}
+
+export const fetchProducts = () => async dispatch =>{
+    const res =  await api.get('/products')
+
+    dispatch({
+        type: types.FETCH_PRODUCTS,
+        payload: [...res.data.products]
+    })
+}
+
+export const fetchProduct = (id) => async dispatch =>{
+    try{
+        const res =  await api.get(`/products/${id}`)
+        dispatch({
+            type: types.FETCH_PRODUCTS,
+            payload: [res.data.product]
+        })
+    }
+    catch (e) {
+        return false
+    }
+}
+
+export const createOrder = ({name, phone, address, state, items, email, deliveryMethod}) => async dispatch =>{
+    try{
+        await api.post(`/orders`, {
+            name, phone, address, state, email, items, deliveryMethod
+        })
+        // dispatch({
+        //     type: types.CREATE_ORDER,
+        //     payload:
+        // })
+        return true
+    }
+    catch (e) {
+        return false
+    }
 }

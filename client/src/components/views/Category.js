@@ -6,7 +6,7 @@ import ProductList from '../ProductList'
 import Error404 from './Error404'
 
 const Category = (props) => {
-    const category = props.match.params.categoryName.split('-').join(' ')
+    const category = props.match.params['categoryName'].split('-').join(' ')
     const categoryName = category.split(' ').map(str=> str.charAt(0).toUpperCase() + str.slice(1)).join(' ')
     const filteredProducts = products.filter(product => product.category.includes(category))
     const categoryList = categories.map(category => category.value)

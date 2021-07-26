@@ -1,11 +1,14 @@
+import {useState, useEffect} from "react";
 import {withRouter} from 'react-router-dom'
+import {connect} from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {products} from '../../productData'
 import localForage from 'localforage'
 import Header from '../Header'
 import Footer from '../Footer'
 import Error404 from './Error404';
+import {fetchProduct} from "../../actions";
+import Loader from "../Loader";
 
 function formatNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -17,7 +20,7 @@ const addToCart = async (product) => {
         cartItems = [{...product, quantity: 1}]
     }
     else{
-        const itemIndex = cartItems.findIndex(item => item.id === product.id)
+        const itemIndex = cartItems.findIndex(item => item._id === product._id)
         if (itemIndex < 0){
             cartItems.push({...product, quantity: 1})
         }
@@ -26,13 +29,31 @@ const addToCart = async (product) => {
         }
     }
     console.log(cartItems)
-    localForage.setItem('cart', cartItems, () => toast.success('Added to cart Successfully'))   
+    await localForage.setItem('cart', cartItems, () => toast.success('Added to cart Successfully'))
 }
 
-const ProductPage = ({match}) => {
-    const id = parseInt(match.params.id, 10)
-    const product = products.filter((item) => id === item.id)[0]
-    if(!product) return <Error404/>
+const ProductPage = ({match, products, fetchProduct}) => {
+    const [loading, setLoading] = useState(true);
+    const [product, setProduct] = useState({});
+    const id = match.params['product']
+    useEffect(  () => {
+        const storeProduct = products.find((item) => id === item._id)
+        if (storeProduct) {
+            setProduct(storeProduct)
+            setLoading(false)
+        }
+        else{
+            fetchProduct(id).then(res =>{
+                if(!res) {
+                    setProduct(res)
+                    setLoading(false)
+                }
+            })
+        }
+    }, [loading, fetchProduct, id, products])
+
+    if (loading) return <Loader/>
+    else if(!loading && !product) return <Error404/>
     else return(
         <div className="ProductPage">
             <ToastContainer/>
@@ -40,26 +61,25 @@ const ProductPage = ({match}) => {
                 <div className="content container flex">
                     <div className="left">
                         <div className="img-container">
-                            <img src={product.imgURL}
+                            <img src={product.imgUrl}
                         alt={product.title}/>
                         </div>
                         <div className="info-container">
                         <div className="info">
                             <h3>{product.title}</h3>
                             <div className='flex'>
-                                <p className="date-posted"><i className="fas fa-clock text-secondary"></i> Posted today, 12:00pm</p>
-                                <p className="view-count"><i className="fas fa-eye text-secondary"></i> Viewed by 15</p>
+                                <p className="date-posted"><i className="fas fa-clock text-secondary"/> Posted today, 12:00pm</p>
+                                <p className="view-count"><i className="fas fa-eye text-secondary"/> Viewed by 15</p>
                             </div>
                             <div className='flex'>
-                                <p className="location"><i className="fas fa-map-marker-alt text-secondary"></i> Gbagada, Lagos</p>
+                                <p className="location"><i className="fas fa-map-marker-alt text-secondary"/> Gbagada, Lagos</p>
                                 <div className='action-buttons'>
-                                <button className="add-to-cart text-primary" onClick={()=>addToCart(product)}><i className="fas fa-shopping-cart"></i> Add to Cart</button>
-                                <button className="favorite text-secondary"><i className="fas fa-heart"></i> Add to favourites</button>
+                                <button className="add-to-cart text-primary" onClick={()=>addToCart(product)}><i className="fas fa-shopping-cart"/> Add to Cart</button>
                                 </div>
                             </div>
                             <div className="mobile interact flex">
                                 <div className="price text-primary">₦{formatNumberWithCommas(product.price)}</div>
-                                <div className="seller"><button className='bg-primary'><i className="fab fa-whatsapp"></i> Talk To Us</button></div>
+                                <div className="seller"><button className='bg-primary'><i className="fab fa-whatsapp"/> Talk To Us</button></div>
                             </div>
                             </div>
 
@@ -110,17 +130,17 @@ const ProductPage = ({match}) => {
                         <div className="price text-primary mobile-hide">₦{formatNumberWithCommas(product.price)}</div>
 
                         <div className="seller bg-primary mobile-hide">
-                            <p><i className="fab fa-whatsapp"></i> Talk To Us</p>
+                            <p><i className="fab fa-whatsapp"/> Talk To Us</p>
                         </div>
 
                         <div className="stock" >
                             <p className="text-secondary">Temporarily out of stock.</p>
                             <p>Order now and we will deliver when available.</p>
-                            <p className='details'><span className='text-primary'>Details</span> <i className="fas fa-caret-down"></i></p>
+                            <p className='details'><span className='text-primary'>Details</span> <i className="fas fa-caret-down"/></p>
                             {/* <h2 className='text-center text-secondary'> <i className="fas fa-shopping-cart"></i> Add to cart</h2> */}
                         </div>
 
-                        <div className="feedback text-primary"><p><i className="far fa-smile"></i> Give Feedback</p></div>
+                        <div className="feedback text-primary"><p><i className="far fa-smile"/> Give Feedback</p></div>
 
                         <div className="ad text-secondary">Advertisement</div>
                     </div>
@@ -132,4 +152,9 @@ const ProductPage = ({match}) => {
         </div>
     )
 }
-export default withRouter(ProductPage)
+
+const mapStateToProps = ({products}) =>({
+    products,
+})
+
+export default connect(mapStateToProps, {fetchProduct})(withRouter(ProductPage))

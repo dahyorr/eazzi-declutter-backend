@@ -39,13 +39,13 @@ export const products =[
 export const categories = [
     {value: 'furniture', name: 'Furniture', iconName: 'fa-couch'},
     {value: 'electronics', name: 'Electronics', iconName: 'fa-tv'},
-    {value: 'home and office', name: 'Home & Office', iconName: 'fa-home'}, 
-    {value: 'household items', name: 'Household Items', iconName: 'fa-blender'}, 
+    {value: 'home and office', name: 'Home & Office', iconName: 'fa-home'},
+    {value: 'household items', name: 'Household Items', iconName: 'fa-blender'},
     {value: 'computers', name: 'Computers', iconName: 'fa-laptop'},
-    {value: 'phones', name: 'Phones', iconName: 'fa-mobile'}, 
-    {value: 'clothing', name: 'Clothing', iconName: 'fa-tshirt'}, 
-    {value: 'children and toys', name: 'Children & Toys', iconName: 'fa-puzzle-piece'}, 
-    {value: 'health and beauty', name: 'Health & Beauty', iconName: 'fa-plus-square'}, 
+    {value: 'phones', name: 'Phones', iconName: 'fa-mobile'},
+    {value: 'clothing', name: 'Clothing', iconName: 'fa-tshirt'},
+    {value: 'children and toys', name: 'Children & Toys', iconName: 'fa-puzzle-piece'},
+    {value: 'health and beauty', name: 'Health & Beauty', iconName: 'fa-plus-square'},
     {value: 'cars', name: 'Cars', iconName: 'fa-car'}
 ]
 

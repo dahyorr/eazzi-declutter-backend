@@ -13,7 +13,7 @@ const Signup = ({history, isAuthenticated, signupUser}) => {
         history.push('/login')
     }
     const onFormSubmit = async (values) => {
-        const res = await signupUser(values.name, values.email, values.password)
+        const res = await signupUser(values.name, values.email, values.password, values.phone)
         setShowModal(res)
     }
 

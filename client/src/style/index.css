@@ -1044,6 +1044,17 @@ a {
 .Layout .Form .input-container {
   margin-bottom: 0.5rem;
 }
+.Layout .Form .input-container .ngFlag {
+  position: relative;
+}
+.Layout .Form .input-container .ngFlag img {
+  width: 25px;
+  height: auto;
+  position: absolute;
+}
+.Layout .Form .input-container .ngFlag input {
+  padding-left: 30px;
+}
 .Layout .Form .input-container label {
   display: block;
   font-size: 0.8rem;
@@ -1228,9 +1239,9 @@ a {
   width: 100vw;
   justify-content: center;
   align-items: center;
+  position: fixed;
 }
 .Layout .Loader .spinner {
-  border: 7px solid white;
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -1703,6 +1714,10 @@ a {
   width: 25%;
   height: fit-content;
 }
+.Layout .Order .content .order-content .right .form-error {
+  color: red;
+  font-size: 0.8rem;
+}
 .Layout .Order .content .order-content .right .address {
   padding: 0.5rem 0.5rem;
   margin-bottom: 1rem;
@@ -1742,11 +1757,18 @@ a {
   justify-content: space-between;
   margin: 0.25rem 0;
 }
+.Layout .Order .content .order-content .right .order-info .info {
+  font-size: 0.75rem;
+  margin-top: 1rem;
+}
+.Layout .Order .content .order-content .right .order-info .info span {
+  color: red;
+}
 .Layout .Order .content .order-content .right .help {
   margin-top: 1rem;
   padding: 0.5rem 0.5rem;
 }
-.Layout .Order .content .order-content .right .help button {
+.Layout .Order .content .order-content .right .help .talk-to-us {
   width: 80%;
   display: block;
   margin: 0.5rem auto;
@@ -1758,6 +1780,12 @@ a {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  text-align: center;
+}
+.Layout .Order .content .order-content .right .help .talk-to-us i {
+  color: #43E673;
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
 }
 .Layout .Order .content .order-content .right .place-order {
   font-weight: bold;

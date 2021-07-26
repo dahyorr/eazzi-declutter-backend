@@ -31,6 +31,10 @@ const SideNav = ({location: {pathname}}) => {
                     <FaProjectDiagram className='icon'/> <p>Manage Products</p>
                     </Link>
 
+                    <Link to='/admin/orders' className={`nav-item ${pathname.split('/')[2]=== 'orders' ?'active':''}`}>
+                    <FaList className='icon'/> <p>Manage Orders</p>
+                    </Link>
+
                     {/* <Link to='/admin/edit/products' className={`nav-item ${pathname=== '/admin/edit/products' ?'active':''}`}>
                         <FaServicestack className='icon'/> <p>Update Products</p>
                     </Link> */}

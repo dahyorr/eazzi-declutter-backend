@@ -1,31 +1,52 @@
 import { useEffect, useState } from "react"
-import { withRouter } from "react-router-dom"
+import {connect} from 'react-redux'
+import {withRouter} from "react-router-dom"
 import localForage from "localforage"
 import Footer from "../Footer"
 import Header from "../Header"
+import OrderForm from "../forms/OrderForm";
+import {createOrder} from "../../actions";
+import FullScreenModal from "../FullScreenModal";
 
 function formatNumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const Order = ({history}) => {
+const Order = ({history, user, createOrder}) => {
     let [cartItems, setCartItems] = useState([]);
+    let [showModal, setShowModal] = useState(false);
+    const onModalClose = () =>{
+        setShowModal(false)
+        history.push('/')
+    }
+
     useEffect(() => {
         localForage.getItem('cart', null)
         .then(cart => {
+            console.log(cart)
             if(!cart) history.push('/cart')
             else setCartItems(cart)
         })
     }, [history])
-
     let cartTotal = 0
     if(cartItems.length > 0){
         cartItems.forEach((item) => {
             cartTotal = cartTotal + (item.quantity * item.price)
         })
-        console.log(cartTotal)
     }
 
+    const onOrderSubmit = (values) => {
+        const items = cartItems.map(({_id, quantity}) =>({
+            product: _id,
+            quantity
+        }))
+        const body  = ({...values, email: user.email, items})
+        console.log(body)
+        createOrder(body).then(res =>{
+            if(res) setShowModal(true)
+            else(console.error("order failed to save"))
+        })
+    }
     return(
         <div className="Order">
             <Header/>
@@ -33,8 +54,8 @@ const Order = ({history}) => {
                 <div className="order-content">
                     <div className="left pane">
                     {cartItems.map(item =>(
-                        <div className="cartItem" key={item.id}>
-                            <img src={item.imgURL} alt="Product" />
+                        <div className="cartItem" key={item._id}>
+                            <img src={item.imgUrl} alt="Product" />
                             <h4>{item.title}</h4>
                             <div className="details">
                                 <div>
@@ -50,53 +71,38 @@ const Order = ({history}) => {
                     ))}
                     </div>
                     <div className="right pane">
-
-                        <div className="address">
-                            <h4>1. Address Details</h4>
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                <input type="text" name="owner" placeholder="Name"/>
-                                <textarea type="text" name="address" placeholder="Address"></textarea>
-                                <input type="text" name="state" placeholder="State"/>
-                                <input type="text" name="Phone Number" placeholder="Phone Number"/>
-                            </form>
-                        </div>
-
-                        <div className="delivery-method">
-                            <h4>2. Delivery Method</h4>
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                <div className="input-group">
-                                    <input type="radio" value="homeDelivery" id='home' name="deliveryMethod" selected/>
-                                    <label htmlFor="home">Home Delivery</label>
-                                </div>
-
-                                <div className="input-group">
-                                    <input value="pickUp" type='radio' id='pickup' name="deliveryMethod"/>
-                                    <label htmlFor="pickup">Pick Up</label>
-                                </div>
-
-
-                            </form>
-                        </div>
-
-                        <div className="order-info">
-                            <h4>3. Order Details</h4>
-                            <div><p className='head'>Subtotal: </p> <p>₦{formatNumberWithCommas(cartTotal)}</p></div>
-                            <div><p className='head'>Shipping Fee: </p> <p>₦{formatNumberWithCommas(1500)}</p></div>
-                            <hr />
-                            <div><p className='head'>Total Price: </p> <p>₦{formatNumberWithCommas(cartTotal + 1500)}</p></div>
-                        </div>
-
-                        <button className="place-order"> Place Order</button>
+                        <OrderForm user={user} onFormSubmit={onOrderSubmit}>
+                            <div className="order-info">
+                                <h4>3. Order Details</h4>
+                                <div><p className='head'>Subtotal: </p> <p>₦{formatNumberWithCommas(cartTotal)}</p></div>
+                                <div><p className='head'>Shipping Fee: </p> <p>TBD</p></div>
+                                <hr />
+                                <div><p className='head'>Total Price: </p> <p>₦{formatNumberWithCommas(cartTotal)}</p></div>
+                                <p className={'info text-center'}><span>*</span>Shipping details and price will be sent to you for order confirmation</p>
+                            </div>
+                        </OrderForm>
                         <div className="help">
                             <h5>Need Help?</h5>
-                            <button>Talk With Us</button>
+                            <a className='talk-to-us'
+                               target='_blank'
+                               rel="noreferrer"
+                               href='https://wa.me/2348026265447?text=Hi,%20I%20need%20help%20on%20your%20EazziDeclutter%20platform'>
+                                <i className="fab fa-whatsapp"/>Talk With Us
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             <Footer/>
+            { showModal && <FullScreenModal onClose={onModalClose}>
+                <p>Order Created Successfully</p>
+            </FullScreenModal> }
         </div>
     )
 }
 
-export default withRouter(Order) 
+const mapStateToProps = ({auth}) =>({
+    user: {email: auth.email, name: auth.name, phoneNumber:auth.phoneNumber }
+})
+
+export default connect(mapStateToProps, {createOrder})(withRouter(Order))
