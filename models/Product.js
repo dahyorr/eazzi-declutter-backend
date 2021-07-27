@@ -8,6 +8,7 @@ const ProductSchema = new Schema({
     category: [{type: String, required: true}],
     dateCreated: {type: Date, default: Date.now()},
     location: {type: String, required: true},
+    description: {type: String},
     status: {type: String, default: 'Ongoing',  enum:['Ongoing', 'Completed'] },
 })
 

@@ -28,11 +28,11 @@
     "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
+    "mongoose-increment": "^2.0.0",
     "morgan": "^1.10.0",
     "twilio": "^3.66.0"
   },
   "devDependencies": {
-    "mongoose-increment": "^2.0.0",
     "nodemon": "^2.0.11"
   }
 }

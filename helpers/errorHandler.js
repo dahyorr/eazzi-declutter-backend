@@ -3,4 +3,4 @@ module.exports = function errorHandler ( err, req, res, next ) {
     let message = "Ops!. Something went south.";
     console.log(err)
     return res.status(status).json({message});
-};
+}
