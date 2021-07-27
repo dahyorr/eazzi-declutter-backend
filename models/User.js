@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
     email: {type: String, required: true},
     name: {type: String, required: true},
+    phone: {type: String, required: true},
     isAdmin: {type: Boolean, default: false},
     isVerified: {type: Boolean, default: false},
     dateCreated: {type: Date, default: Date.now()},

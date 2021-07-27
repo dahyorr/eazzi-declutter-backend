@@ -13,12 +13,14 @@ app.use(morgan('dev'));
 app.use(cors({
     origin: '*'
 }))
+app.use('/static', express.static('static'))
 require('./routes/index')(app)
 app.use(errorHandler)
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: true,
+    useCreateIndex: true,
 })
     .then(() =>{
         app.listen(PORT)

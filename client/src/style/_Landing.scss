@@ -1,0 +1,74 @@
+.Landing{
+    align-items: center;
+    justify-content: space-evenly;
+    background: url(../static/landingCurve.svg) no-repeat center center ;
+    // background-size: 100% 100%;
+    background-position: top left;
+    padding: 0;
+    position: relative;
+    height: 500px;
+    margin-bottom: 2rem;
+    >img{
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        object-fit:cover;
+    }
+    .content{
+        align-items: center;
+        justify-content: space-evenly;
+        z-index: 2;
+
+
+        img{
+            max-width: 50%;
+            height: 500px;
+            // margin-left: 3rem;
+        }
+    }
+    
+    .landing-text{
+        width: 41%;
+        padding: 1.5rem 1.25rem;
+        flex-direction: column;
+        justify-content: center;
+        // background: white;
+        border-radius: 5px;
+        margin-left: 7rem;
+        margin-top: 7rem;
+        .large-text{
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .small-text{
+            font-size: 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Landing{
+        flex-direction: column;
+        height: fit-content;
+        background: none;
+
+        >img{
+            z-index: -1;
+        }
+        .content{
+            flex-direction:column;
+            position: relative;
+            text-align: center;
+            img{
+                max-width: 100%;
+                margin-left: 0;
+                display: none;
+            }
+        }
+        .landing-text{
+            width: 100%;
+            margin: 0 0;
+        }
+    }
+}

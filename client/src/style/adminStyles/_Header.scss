@@ -1,0 +1,48 @@
+.Header{
+    height: 55px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    .user-search{
+        height: 100%;
+        .search{
+            display: flex;
+            align-items: center;
+            form{
+                position: relative;
+                height: fit-content;
+                width: fit-content;
+                display: flex;
+                align-items: center;
+                margin-right: 1rem;
+                input{
+                    height: 40px;
+                    width: 325px;
+                    border-radius: 10px;
+                    border: none;
+                    padding: 0 1rem 0 1.5rem;
+                    font-size: 1rem 
+                }
+                button{
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    position: absolute;
+                    font-size: 1.2rem;
+                    top: 10px;
+                    left: 5px;
+                }
+            }
+        }
+        .user{
+            align-items: center;
+            .user-avatar{
+                height: 100%;
+                margin-right: 10px;
+            }
+            .welcome{
+                margin-right: 0.75rem;
+            }
+        }
+    }
+}
