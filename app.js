@@ -13,8 +13,8 @@ app.use(morgan('dev'));
 app.use(cors({
     origin: '*'
 }))
-require('./routes/index')(app)
 app.use('/static', express.static('static'))
+require('./routes/index')(app)
 app.use(errorHandler)
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
