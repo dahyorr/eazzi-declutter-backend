@@ -11,7 +11,19 @@ module.exports = {
     },
 
     fetchProducts: async (req, res) =>{
-        const products = await Product.find()
+        const {query} = req
+        if (query.category) query.category = {$in: [query.category]}
+        const products = await Product.find(query)
+        res.status(200).json({products})
+    },
+
+    searchProducts: async (req, res) =>{
+        const {search} = req.body
+        console.log(search)
+        const products = await Product.find(
+            // {$text: {$search: search}},
+            {"title": { "$regex": search, "$options": "i" }}
+        )
         res.status(200).json({products})
     },
 

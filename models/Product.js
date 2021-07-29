@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
-    title: {type: String, required: true, max: 53},
+    title: {type: String, required: true, max: 55},
     imgUrl: {type: String, required: true},
     price: {type: Number, required: true},
     category: [{type: String, required: true}],
@@ -11,5 +11,7 @@ const ProductSchema = new Schema({
     description: {type: String},
     status: {type: String, default: 'Ongoing',  enum:['Ongoing', 'Completed'] },
 })
-
+ProductSchema.index(
+    {title: 'text'}
+)
 module.exports = mongoose.model('Product', ProductSchema)

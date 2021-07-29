@@ -12,7 +12,12 @@ routes.get(
     '/',
     // validateBody(registerSchema),
     productController.fetchProducts
-)
+    )
+routes.post(
+    '/search',
+    // validateBody(registerSchema),
+    productController.searchProducts
+    )
 routes.get(
     '/:productId',
     // validateBody(registerSchema),
