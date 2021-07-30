@@ -1,4 +1,4 @@
-const {SENDGRID_API_KEY, URL} = require('../config')
+const {SENDGRID_API_KEY, HOST} = require('../config')
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(SENDGRID_API_KEY);
 
@@ -10,7 +10,7 @@ module.exports = {
         text: `You are receiving this because you have requested the reset of the password for your account.
         Please click on the following link, or paste this into your browser to complete the process
         
-        http://localhost:5000/auth/password-reset/${resetToken.token}
+        ${HOST}/auth/password-reset/${resetToken.token}
         
          Token: ${resetToken.token}
     `
@@ -24,7 +24,7 @@ module.exports = {
         text: `You are receiving this because you created an account on eazziDeclutter
         click on the link below to activate your account
         
-        ${URL}/api/auth/verify/${verifyToken}
+        ${HOST}/api/auth/verify/${verifyToken}
         
          Token: ${verifyToken}
     `

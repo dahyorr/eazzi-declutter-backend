@@ -15,6 +15,7 @@ const OrderSchema = new Schema({
         product: {type: Schema.Types.ObjectId, ref: 'Product', required: true},
         quantity: {type: Number, required:true}
     }],
+    totalPrice: {type: Number, required: true},
     status: {type: String, default:'pending', enum:['completed', 'pending', 'transit', 'pickup', 'failed', 'canceled']}
 })
 
