@@ -23,4 +23,8 @@ routes.get(
     '/verify/:token',
     authController.verifyToken
 )
+routes.get(
+    '/users',
+    authController.allUsers
+)
 module.exports = routes

@@ -28,13 +28,18 @@ module.exports = {
     },
 
     register: async (req, res) =>{
-        const {email, name, password, phone} = req.body
+        const {email, name, password, phone:phoneNumber} = req.body
+        let phone;
         try{
             let user = await User.findOne({ email: email})
             if(user){
                 return res.status(422).json({ message: 'User already exists'})
             }
             const verifyToken = crypto.randomBytes(16).toString('hex')
+            if (phoneNumber[0] === '0'){
+                phone = `+234${phoneNumber.slice(1,)}`
+            }
+            else phone = phoneNumber
             user = new User({
                 email,
                 name,
@@ -106,4 +111,9 @@ module.exports = {
         // return res.status(200).json({...req.user})
         res.redirect('/auth/verify?success=true')
     },
+
+    allUsers: async (req, res) => {
+        const users = await User.find({isAdmin: false})
+        res.status(200).json({users})
+    }
 }
