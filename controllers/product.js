@@ -12,8 +12,9 @@ module.exports = {
 
     fetchProducts: async (req, res) =>{
         const {query} = req
-        if (query.category) query.category = {$in: [query.category]}
-        const products = await Product.find(query)
+        let queryCheck = {}
+        if (query.category) queryCheck = {category: query.category}
+        const products = await Product.find(queryCheck)
         res.status(200).json({products})
     },
 

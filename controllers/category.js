@@ -12,7 +12,7 @@ module.exports = {
 
     fetchCategories: async (req, res) =>{
         const categories = await Category.find()
-        res.status(200).json({categories })
+        res.status(200).json({categories})
     },
 
     fetchCategory: async (req, res) =>{
