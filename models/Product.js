@@ -9,7 +9,7 @@ const ProductSchema = new Schema({
     dateCreated: {type: Date, default: Date.now()},
     location: {type: String, required: true},
     description: {type: String},
-    status: {type: String, default: 'Ongoing',  enum:['Ongoing', 'Completed'] },
+    // status: {type: String, default: 'Ongoing',  enum:['Ongoing', 'Completed'] },
     stock: {type: Number, required: true}
 })
 ProductSchema.index(

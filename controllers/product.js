@@ -2,9 +2,12 @@ const Product = require('../models/Product')
 
 module.exports = {
     createProduct: async (req, res) =>{
-        const {title, imgUrl, price, category, location, status} = req.body
+        if (!req.file) return res.status(422).json({message: "Please Provide a product image"})
+        const {title, imgUrl, price, category, location, description, stock} = req.body
+        console.log(req.body)
+        console.log(imgUrl)
         const product = new Product({
-            title, imgUrl, price, category, location, status: status || 'Ongoing'
+            title, imgUrl, price, category, location, description, stock,
         })
         await product.save()
         res.status(200).json({message: "Product saved successfully"})
