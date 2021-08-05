@@ -29,4 +29,3 @@ mongoose.connect(MONGO_URI, {
         console.log(`Listening on port ${PORT}`)
     })
     .catch(e => console.log(e))
-

@@ -9,8 +9,12 @@ module.exports = {
         const product = new Product({
             title, imgUrl, price, category, location, description, stock,
         })
-        await product.save()
-        res.status(200).json({message: "Product saved successfully"})
+        const savedProduct = await product.save()
+        console.log(savedProduct)
+        res.status(201).json({
+            message: "Product saved successfully",
+            productId: savedProduct._id
+        })
     },
 
     fetchProducts: async (req, res) =>{
