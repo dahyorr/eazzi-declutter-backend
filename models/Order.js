@@ -16,7 +16,7 @@ const OrderSchema = new Schema({
         quantity: {type: Number, required:true}
     }],
     totalPrice: {type: Number, required: true},
-    status: {type: String, default:'pending', enum:['completed', 'pending', 'transit', 'pickup', 'failed', 'canceled']}
+    status: {type: String, default:'pending', enum:['completed', 'pending', 'awaitingDelivery', 'cancelled']}
 })
 
 OrderSchema.plugin(increment, {

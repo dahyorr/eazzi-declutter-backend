@@ -15,6 +15,11 @@ routes.get(
     // validateBody(registerSchema),
     productController.fetchProducts
     )
+routes.get(
+    '/admin',
+    // validateBody(registerSchema),
+    productController.fetchProductsAdmin
+    )
 routes.post(
     '/search',
     // validateBody(registerSchema),
@@ -24,6 +29,12 @@ routes.get(
     '/:productId',
     // validateBody(registerSchema),
     productController.fetchProduct
+)
+routes.put(
+    '/:productId',
+    // validateBody(registerSchema),
+    productUpload.single('productImage'),
+    productController.updateProduct
 )
 
 module.exports = routes

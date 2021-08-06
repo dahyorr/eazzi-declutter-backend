@@ -1,11 +1,11 @@
+const fs = require('fs')
+const path = require('path')
 const Product = require('../models/Product')
 
 module.exports = {
     createProduct: async (req, res) =>{
         if (!req.file) return res.status(422).json({message: "Please Provide a product image"})
         const {title, imgUrl, price, category, location, description, stock} = req.body
-        console.log(req.body)
-        console.log(imgUrl)
         const product = new Product({
             title, imgUrl, price, category, location, description, stock,
         })
@@ -17,10 +17,41 @@ module.exports = {
         })
     },
 
+    updateProduct: async (req, res) =>{
+        const{productId} = req.params
+        if (!req.file) return res.status(422).json({message: "Please Provide a product image"})
+        const {title, imgUrl, price, category, location, description, stock} = req.body
+        const product = await Product.findOne({_id: productId})
+        const fileLocation = path.join(__dirname, '..', product.imgUrl)
+        console.log(fileLocation)
+        if(product.imgUrl !== imgUrl) fs.unlinkSync(fileLocation)
+        product.title = title
+        product.imgUrl = imgUrl
+        product.price = price
+        product.category = category
+        product.location = location
+        product.description = description
+        product.stock = stock
+        const savedProduct = await product.save()
+        console.log(savedProduct)
+        res.status(204).json({
+            message: "Product updated successfully",
+            productId: savedProduct._id
+        })
+    },
+
     fetchProducts: async (req, res) =>{
         const {query} = req
-        let queryCheck = {}
-        if (query.category) queryCheck = {category: query.category}
+        const queryCheck = {}
+        queryCheck.stock = {$gt:0}
+        if (query.category) queryCheck.category = query.category
+        const products = await Product.find(queryCheck)
+        res.status(200).json({products})
+    },
+
+    fetchProductsAdmin: async (req, res) =>{
+        const {query} = req
+        const queryCheck = {}
         const products = await Product.find(queryCheck)
         res.status(200).json({products})
     },
@@ -30,7 +61,7 @@ module.exports = {
         console.log(search)
         const products = await Product.find(
             // {$text: {$search: search}},
-            {"title": { "$regex": search, "$options": "i" }}
+            {"title": { "$regex": search, "$options": "i" },stock:{$gt:0}}
         )
         res.status(200).json({products})
     },

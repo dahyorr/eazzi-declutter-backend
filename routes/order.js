@@ -1,5 +1,7 @@
 const express = require('express');
 const orderController = require('../controllers/order');
+const validateBody = require('../middlewares/validateBody')
+const orderSchema = require('../validators/orderSchema')
 const routes =  express.Router()
 
 
@@ -7,6 +9,11 @@ routes.post(
     '/',
     // validateBody(loginSchema),
     orderController.createOrder
+)
+routes.patch(
+    '/status/:orderId',
+    validateBody(orderSchema.ChangeStatus),
+    orderController.changeStatus
 )
 routes.get(
     '/',

@@ -1,12 +1,22 @@
 const Order = require('../models/Order')
+const Product = require('../models/Product')
 const {sendOrderNotification} = require('../helpers/whatsapp')
+const {sendOrderInTransitMail} = require('../helpers/mailer')
 
 module.exports = {
     createOrder: async (req, res) =>{
         const {name, phone, address, state, email, items, deliveryMethod, totalPrice} = req.body
-        console.log(req.body)
         const order = new Order({
             name, phone, address, state, email, items, deliveryMethod, totalPrice
+        })
+        console.log(items)
+        items.forEach(item => {
+            Product.findOne({_id:item.product})
+                .then(product => {
+                    product.stock = product.stock - item.quantity
+                    product.save()
+                })
+                .catch(e => console.log(e))
         })
         await order.save()
         sendOrderNotification(order)
@@ -14,7 +24,7 @@ module.exports = {
     },
 
     fetchOrders: async (req, res) =>{
-        const orders = await Order.find()
+        const orders = (await Order.find()).reverse()
         //     .populate({
         //     path: "items.product"
         // })
@@ -30,4 +40,28 @@ module.exports = {
         res.status(200).json({order})
     },
 
+    changeStatus: async (req, res) =>{
+        const {orderId} = req.params
+        const {status} = req.body
+        const order = await Order.findOne({id: orderId}).populate({
+            path: "items.product"
+        })
+        if (order){
+            order.status = status
+            await order.save()
+            console.log(order)
+            if(status === 'awaitingDelivery') await sendOrderInTransitMail(order)
+            if(status === 'cancelled') {
+                order.items.forEach(item =>  {
+                    Product.findOne({_id:item.product._id})
+                        .then(product =>{
+                            product.stock += item.quantity
+                            return product.save()
+                        })
+                } )
+            }
+            return res.status(204).json({message: 'Order status changed successfully'})
+        }
+        else return res.status(404).json({message: "Order not found"})
+    }
 }

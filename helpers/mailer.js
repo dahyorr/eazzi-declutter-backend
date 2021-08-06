@@ -30,4 +30,21 @@ module.exports = {
     `
     })
         .then((r)=> console.log(r[0].statusCode)),
+
+    sendOrderInTransitMail: (order) =>sendGridMail.send({
+        to: order.email,
+        from: 'dahyor@outlook.com',
+        subject: 'Order Confirmation',
+        text: `This is to inform you that payment for your order has been confirmed and your
+order will be shipped in 7 working days
+
+Items:
+    ${order.items.map((item) => `\n\t${item.product.title} X${item.quantity}`)}
+    
+    Total Price:  ${order.totalPrice}
+    
+Thank you for your patronage
+    `
+    })
+        .then((r)=> console.log(r[0].statusCode)),
 }
