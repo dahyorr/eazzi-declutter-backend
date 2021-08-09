@@ -42,7 +42,9 @@ order will be shipped in 24 Hours
 Items:
     ${order.items.map((item) => `\n\t${item.product.title} X${item.quantity}`)}
     
-    Total Price:  ${order.totalPrice}
+    Shipping Fee:   ₦ ${formatNumberWithCommas(order.shippingFee)}
+    Total Price:   ₦ ${formatNumberWithCommas(order.totalPrice)}
+    Grand total:  ₦ ${formatNumberWithCommas(order.shippingFee + order.totalPrice)}
     
 Thank you for your patronage
     `
@@ -53,7 +55,7 @@ Thank you for your patronage
         to: order.email,
         from: 'dahyor@outlook.com',
         subject: 'Order Invoice',
-        text: `This is to inform you that the Shipment fee for the order has been determined
+        text: `This is to inform you that the Shipment fee for the order has been determined payment should be made in 24 hours
 
 Items:
     ${order.items.map((item) => `\n\t${item.product.title} X${item.quantity}`)}
