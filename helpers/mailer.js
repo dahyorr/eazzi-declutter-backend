@@ -1,6 +1,7 @@
 const {SENDGRID_API_KEY, HOST} = require('../config')
 const sendGridMail = require('@sendgrid/mail');
 sendGridMail.setApiKey(SENDGRID_API_KEY);
+const {formatNumberWithCommas} = require('./util')
 
 module.exports = {
     sendPasswordResetMail: (email, resetToken) =>sendGridMail.send({
@@ -36,12 +37,30 @@ module.exports = {
         from: 'dahyor@outlook.com',
         subject: 'Order Confirmation',
         text: `This is to inform you that payment for your order has been confirmed and your
-order will be shipped in 7 working days
+order will be shipped in 24 Hours
 
 Items:
     ${order.items.map((item) => `\n\t${item.product.title} X${item.quantity}`)}
     
     Total Price:  ${order.totalPrice}
+    
+Thank you for your patronage
+    `
+    })
+        .then((r)=> console.log(r[0].statusCode)),
+
+    sendOrderReceiptMail: (order) =>sendGridMail.send({
+        to: order.email,
+        from: 'dahyor@outlook.com',
+        subject: 'Order Invoice',
+        text: `This is to inform you that the Shipment fee for the order has been determined
+
+Items:
+    ${order.items.map((item) => `\n\t${item.product.title} X${item.quantity}`)}
+    
+    Shipping Fee:   ₦ ${formatNumberWithCommas(order.shippingFee)}
+    Total Price:   ₦ ${formatNumberWithCommas(order.totalPrice)}
+    Grand total:  ₦ ${formatNumberWithCommas(order.shippingFee + order.totalPrice)}
     
 Thank you for your patronage
     `

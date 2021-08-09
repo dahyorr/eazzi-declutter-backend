@@ -8,7 +8,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "prod-start": "pm2 start app.js",
+    "prod-stop": "pm2 stop app.js"
   },
   "keywords": [],
   "author": "",

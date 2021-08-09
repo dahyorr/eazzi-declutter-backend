@@ -10,6 +10,11 @@ routes.post(
     authController.loginUser
 )
 routes.post(
+    '/admin-login',
+    // validateBody(loginSchema),
+    authController.loginAdmin
+)
+routes.post(
     '/register',
     // validateBody(registerSchema),
     authController.register
@@ -17,6 +22,12 @@ routes.post(
 routes.get(
     '/user',
     verifyToken,
+    authController.user
+)
+routes.get(
+    '/admin',
+    verifyToken,
+    isAdmin,
     authController.user
 )
 routes.get(

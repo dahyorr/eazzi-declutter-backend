@@ -15,6 +15,11 @@ routes.patch(
     validateBody(orderSchema.ChangeStatus),
     orderController.changeStatus
 )
+routes.patch(
+    '/shippingFee/:orderId',
+    // validateBody(orderSchema.ChangeStatus),
+    orderController.addShippingFee
+)
 routes.get(
     '/',
     // validateBody(registerSchema),

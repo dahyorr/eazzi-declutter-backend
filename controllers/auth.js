@@ -14,9 +14,9 @@ module.exports = {
     loginUser: async (req, res) =>{
         const user = await User.findOne({email: req.body.email})
         if(!user || !bcrypt.compareSync(req.body.password, user.password))
-            return res.status(400).json({ message: "Invalid Username/password" })
+            return res.status(401).json({ message: "Invalid Username/password" })
         if(!user.isVerified)
-            return res.status(400).json({ message: "User account not verified" })
+            return res.status(401).json({ message: "User account not verified" })
         const payload= {
             _id: user._id,
             name: user.name,
@@ -24,7 +24,21 @@ module.exports = {
             isAdmin: user.isAdmin
         }
         const token = jwt.sign(payload, JWT_SECRET, {expiresIn: 86400})
-        return res.status(200).json({...payload, token, _id: undefined, isAdmin: undefined})
+        return res.status(200).json({...payload, token, _id: undefined, isAdmin: user.isAdmin})
+    },
+
+    loginAdmin: async (req, res) =>{
+        const user = await User.findOne({email: req.body.email, isAdmin: true})
+        if(!user || !bcrypt.compareSync(req.body.password, user.password))
+            return res.status(401).json({ message: "Invalid Username/password" })
+        const payload= {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin
+        }
+        const token = jwt.sign(payload, JWT_SECRET, {expiresIn: 86400})
+        return res.status(200).json({...payload, token, _id: undefined, isAdmin: user.isAdmin})
     },
 
     register: async (req, res) =>{

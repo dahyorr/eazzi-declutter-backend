@@ -10,7 +10,6 @@ module.exports = {
             title, imgUrl, price, category, location, description, stock,
         })
         const savedProduct = await product.save()
-        console.log(savedProduct)
         res.status(201).json({
             message: "Product saved successfully",
             productId: savedProduct._id
@@ -23,7 +22,6 @@ module.exports = {
         const {title, imgUrl, price, category, location, description, stock} = req.body
         const product = await Product.findOne({_id: productId})
         const fileLocation = path.join(__dirname, '..', product.imgUrl)
-        console.log(fileLocation)
         if(product.imgUrl !== imgUrl) fs.unlinkSync(fileLocation)
         product.title = title
         product.imgUrl = imgUrl
@@ -33,7 +31,6 @@ module.exports = {
         product.description = description
         product.stock = stock
         const savedProduct = await product.save()
-        console.log(savedProduct)
         res.status(204).json({
             message: "Product updated successfully",
             productId: savedProduct._id
@@ -58,7 +55,6 @@ module.exports = {
 
     searchProducts: async (req, res) =>{
         const {search} = req.body
-        console.log(search)
         const products = await Product.find(
             // {$text: {$search: search}},
             {"title": { "$regex": search, "$options": "i" },stock:{$gt:0}}

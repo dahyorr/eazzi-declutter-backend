@@ -12,11 +12,19 @@ const OrderSchema = new Schema({
     state: {type: String, required: true},
     email: {type: String, required: true},
     items: [{
-        product: {type: Schema.Types.ObjectId, ref: 'Product', required: true},
+        product: {
+            id: {type: Schema.Types.ObjectId, required: true, ref: 'Product'},
+            title: {type: String, required: true, max: 55},
+            imgUrl: {type: String, required: true},
+            price: {type: Number, required: true},
+            category: {type: String, required: true},
+            location: {type: String, required: true},
+        },
         quantity: {type: Number, required:true}
     }],
     totalPrice: {type: Number, required: true},
-    status: {type: String, default:'pending', enum:['completed', 'pending', 'awaitingDelivery', 'cancelled']}
+    status: {type: String, default:'pending', enum:['completed', 'pending', 'awaitingDelivery', 'cancelled']},
+    shippingFee: {type: Number, required: false}
 })
 
 OrderSchema.plugin(increment, {
